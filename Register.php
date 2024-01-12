@@ -6,7 +6,6 @@ class Register extends database{
 
     public function register ($naam, $wachtwoord, $adres, $tel_nr) 
     {
-
         $message = "";
         try {
             $options = ['cost' =>  6];

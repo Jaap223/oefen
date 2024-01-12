@@ -1,8 +1,5 @@
 <?php 
-
-
 class database {
-
 
     protected $conn;
 

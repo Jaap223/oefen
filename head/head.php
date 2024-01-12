@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,7 +15,8 @@
         <a href="Afspraak.php">Agenda</a>
         <a href="Register.php">Register</a>
         <a href="Login.php">Login</a>
-     
+        <a href="Afspraak.php">Afspraak</a>
+
     </nav>
 
 
@@ -28,9 +27,6 @@
     <footer>
 
     </footer>
-
-
-
 
 </body>
 
