@@ -23,6 +23,8 @@ class Afspraak extends database
             $rowCount = $stmt->rowCount();
 
             return $rowCount;
+            header("Location: Index.php");
+            exit();
         } catch (PDOException $e) {
             return $e->getMessage();
         }
@@ -57,10 +59,12 @@ class Afspraak extends database
             $stmt->bindParam(":update_id", $update_id);
             $stmt->execute();
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->rowCount();
+
         } catch (Exception $e) {
 
             error_log("Error deleting query: " . $e->getMessage());
+            return 0;
         }
     }
 
@@ -83,9 +87,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['insertUp'])) {
 }
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteUp'])) { 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteUpdate'])) { 
 
-    $delete->deleteUp();
+    $delete_id = $_POST['delete_id'];
+    $deleteResult = $insertInstance->deleteUp($delete_id);
+
+    echo $deleteResult > 0 ? "Deletion successful" : "error";
 
 }
 
@@ -161,10 +168,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteUp'])) {
             <th>Date</th>
             <th>Time</th>
             <th>Invoice ID</th>
+            <th>Action</th>
         </tr>
     </thead>
 
-    <tbody>
+    <tbody class = "tableS">
         <?php
         $showUpdatesResult = $insertInstance->showUpdates();
         foreach ($showUpdatesResult as $row) {

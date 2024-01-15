@@ -2,7 +2,7 @@
 session_start();
 require_once 'head/head.php';
 require_once 'data/db.php';
-require_once 'insertAfspraak.php';
+require_once 'data/db.php';
 
 
 

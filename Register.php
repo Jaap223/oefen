@@ -36,7 +36,7 @@ class Register extends database{
 
 }
 
-$reg= new Register();
+$reg = new Register();
 
 if (isset($_POST['register'])) {
     $message = $reg->register(
@@ -44,13 +44,13 @@ if (isset($_POST['register'])) {
         $_POST['wachtwoord'],
         $_POST['adres'],
         $_POST['tel_nr']
-
     );
 
     if(!empty($message)) {
         echo '<p class="succes-message">' . $message . '</p>';
     }
 }
+
 ?>
 
 <!DOCTYPE html>

@@ -47,7 +47,7 @@ class Afspraak extends Database
 // if ($result[''] != '') {
 //     header("Location: Index.php");
 //     exit();
-// }
+// }TEMBO
 
 
 $updateInstance = new Afspraak();

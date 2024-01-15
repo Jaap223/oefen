@@ -63,3 +63,27 @@ body {
     padding: 8px 15px;
     border-radius: 5px;
 }
+.tableS {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tableS th, .tableS td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.tableS th {
+    background-color: #f2f2f2;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
