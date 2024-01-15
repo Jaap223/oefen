@@ -2,6 +2,14 @@
 session_start();
 require_once 'head/head.php';
 require_once 'data/db.php';
+require_once 'insertAfspraak.php';
+
+
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +34,7 @@ require_once 'data/db.php';
         <h1>Welkom !</h1>
 
         <p>Over ons:
-            dwefwegt.</p>
+            lol.</p>
 
     </div>
 

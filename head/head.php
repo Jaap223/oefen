@@ -15,7 +15,9 @@
         <a href="Afspraak.php">Agenda</a>
         <a href="Register.php">Register</a>
         <a href="Login.php">Login</a>
-        <a href="Afspraak.php">Afspraak</a>
+        <a href="Afspraak.php">updateAfspraak</a>
+        <a href="insertAfspraak.php">InsertAfspraak</a>
+        <a href="Auto.php">Auto</a>
 
     </nav>
 
