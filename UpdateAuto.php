@@ -6,6 +6,8 @@ require_once 'head/head.php';
 
 class UpdateAuto extends Database
 {
+
+    //Updaten
     public function updateAuto($car_id, $brand, $model, $price)
     {
         try {
@@ -25,9 +27,12 @@ class UpdateAuto extends Database
     }
 }
 
+// class aanroepen en bericht
 $updaten = new UpdateAuto();
 $updateMessage = '';
 
+
+//logica om de functie te laten werken door de parameters uit de database te halen en vervolgens het resultaat te updaten
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_POST['updateAuto'])) {
@@ -46,10 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
-
 ?>
-
-
 
 <section class="formR">
     <h1>Auto updaten</h1>
