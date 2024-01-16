@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="path/to/your/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-5-2.2-dist/css/bootstrap.min.css">
 
     <title>head</title>
 </head>
-
 
 <body>
 
@@ -20,6 +20,7 @@
         <a href="Afspraak.php">updateAfspraak</a>
         <a href="insertAfspraak.php">InsertAfspraak</a>
         <a href="Auto.php">Auto</a>
+        <a href="UpdateAuto.php">UpdateAuto</a>
 
     </nav>
 

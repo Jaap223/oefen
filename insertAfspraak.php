@@ -1,4 +1,5 @@
 <?php
+
 require_once 'head/head.php';
 require_once 'data/db.php';
 
