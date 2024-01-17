@@ -2,8 +2,6 @@
 require_once 'data/db.php';
 require_once 'head/head.php';
 
-
-
 class UpdateAuto extends Database
 {
 
@@ -12,9 +10,7 @@ class UpdateAuto extends Database
     {
         try {
             $sql = "UPDATE cars SET car_id = :car_id, brand = :brand, model = :model, price = :price WHERE car_id = :car_id";
-
             $stmt = $this->connect()->prepare($sql);
-
             $stmt->bindParam(':car_id', $car_id, PDO::PARAM_INT);
             $stmt->bindParam(':brand', $brand, PDO::PARAM_STR);
             $stmt->bindParam(':model', $model, PDO::PARAM_STR);
@@ -25,11 +21,48 @@ class UpdateAuto extends Database
             return $e->getMessage();
         }
     }
+
+
+
+    // public function updateAuto($car_id, $brand, $model, $price) 
+    // {
+    //     try {
+    //         $sql = "UPDATE cars SET car_id = :car_id, brand = :brand =, model =:model, price = :price WHERE car_id = :car_id";
+    //         $stmt = $this->connect()->prepare($sql);
+    //         $stmt->bindParam(':car_id', $car_id, PDO::PARAM_INT);
+    //         $stmt->bindParam(':brand', $brand, PDO::PARAM_STR);
+    //         $stmt->bindParam(':model', $model, PDO::PARAM_STR);
+    //         $stmt->bindParam(':price', $price, PDO::PARAM_INT);
+    //         $stmt->execute();
+    //     } catch (PDOException $e) {
+
+
+    //         return $e->getMessage();
+    //     }
+    // }
+
+
+    public function deleteAuto($car_id)
+    {
+        try {
+            $sql = "DELETE FROM cars WHERE car_id = :car_id LIMIT 1";
+            $stmt = $this->connect()->prepare($sql);
+            $stmt->bindParam(':car_id', $car_id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $rowCount = $stmt->rowCount();
+
+            return $rowCount;
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
 }
 
 // class aanroepen en bericht
 $updaten = new UpdateAuto();
 $updateMessage = '';
+$deleteMessage = '';
 
 
 //logica om de functie te laten werken door de parameters uit de database te halen en vervolgens het resultaat te updaten
@@ -50,7 +83,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $updateMessage = 'Error updating auto';
         }
     }
+    
+    if (isset($_POST['action']) && $_POST['action'] === 'deleteAuto') {
+        $delete = new UpdateAuto();
+        $delete->deleteAuto($_POST['car_id']);
+        $deleteMessage = 'Auto verwijderd!';
+        exit();
+    }
 }
+
+
+
+
 ?>
 
 <section class="formR">
@@ -98,5 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <?php echo $updateMessage; ?>
 
+
+    <?php echo $deleteMessage; ?>
 
 </section>

@@ -2,8 +2,11 @@
 require_once 'head/head.php';
 require_once 'data/db.php';
 
-class Auto extends Database {
+class Auto extends Database
+{
 
+
+    //Functie om een auto toe te voegen in de database tabel
     public function addAuto($car_id, $brand, $model, $price)
     {
         try {
@@ -23,6 +26,7 @@ class Auto extends Database {
         }
     }
 
+    //functie om een auto id te verwijderen in de database
     public function delete($car_id)
     {
         try {
@@ -36,11 +40,21 @@ class Auto extends Database {
             return $e->getMessage();
         }
     }
+
+    public function fetchAll($sql)
+    {
+        try {
+            $stmt = $this->connect()->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
 }
 
 $invoeren = new Auto();
 $insertMessage = '';
- $deleteMessage = '';
+$deleteMessage = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -58,8 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             $insertMessage = 'fout bij het toevoegen van een auto';
         }
-
-    } 
+    }
 
     // Om de functie te verwijderen 
 
@@ -67,14 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $delete = new Auto();
         $delete->delete($_POST['car_id']);
         $deleteMessage = 'Auto verwijderd!';
-        exit();
     }
-
-
-
-
-
-    
 }
 ?>
 
@@ -125,3 +131,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <?php echo $deleteMessage; ?>
 </section>
+
+
+<h2>Auto's</h2>
+<table class="tab2">
+    <table border="1">
+        <tr>
+            <th>Car ID</th>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+        <?php
+        $cars = $invoeren->fetchAll("SELECT * FROM cars");
+
+        foreach ($cars as $car) {
+            echo "<tr>";
+            echo "<td>{$car['car_id']}</td>";
+            echo "<td>{$car['brand']}</td>";
+            echo "<td>{$car['model']}</td>";
+            echo "<td>{$car['price']}</td>";
+            echo "<td>
+                <form method='post' action='{$_SERVER['PHP_SELF']}'>
+                    <input type='hidden' name='car_id' value='{$car['car_id']}'>
+                    <input type='hidden' name='action' value='delete'>
+                    <button type='submit'>Delete</button>
+                </form>
+              </td>";
+            echo "</tr>";
+        }
+        ?>
+
+    </table>
