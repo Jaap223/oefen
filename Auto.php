@@ -27,6 +27,7 @@ class Auto extends Database
     }
 
 
+    //functie om de auto te updaten 
     public function updateAuto($car_id, $brand, $model, $price)
     {
         try {
