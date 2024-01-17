@@ -32,9 +32,8 @@ class Register extends database{
         return $message;
 
     }
-
-
 }
+
 
 $reg = new Register();
 
