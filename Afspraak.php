@@ -20,16 +20,42 @@ class Afspraak extends Database
                 $stmt->execute();
 
                 return $stmt->rowCount();
-
             } else {
                 $sql = "SELECT update_id, u_id, status, datum, tijd, factuur_id FROM updates";
                 $stmt = $this->connect()->query($sql);
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         } catch (PDOException $e) {
-            return $e->getMessage(); 
+            return $e->getMessage();
         }
     }
+
+
+    public function fetchAll($sql)
+    {
+        try {
+            $sql = "SELECT * FROM updates";
+            $stmt = $this->connect()->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function delete($update_id)
+    {
+        try {
+            $sql  = "DELETE FROM updates WHERE update_id = :update_id LIMIT 1";
+            $stmt = $this->connect()->prepare($sql);
+            $stmt->bindParam(':update_id', $update_id, PDO::PARAM_INT); // Fix here
+            $stmt->execute();
+            $rowCount = $stmt->rowCount();
+            return $rowCount;
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+    
 }
 
 // $user_name = $_SESSION['naam'];
@@ -52,10 +78,11 @@ class Afspraak extends Database
 
 $updateInstance = new Afspraak();
 $updateResult = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
-    if(isset($_POST['update_id']) && !empty($_POST['update_id'])) {
-        $updateData['update_id'] = $_POST['update_id']; 
-        $updateData['u_id'] =$_POST['u_id'];
+    if (isset($_POST['update_id']) && !empty($_POST['update_id'])) {
+        $updateData['update_id'] = $_POST['update_id'];
+        $updateData['u_id'] = $_POST['u_id'];
         $updateData['status'] = $_POST['status'];
         $updateData['datum'] = $_POST['tijd'];
         $updateData['factuur_id'] = $_POST['factuur_id'];
@@ -67,85 +94,108 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
         echo "error";
     }
 }
+
+
+
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Update Form</title>
-</head>
+    <section class="formR">
+        <h1>Update Form</h1>
+        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <table>
+                <tr>
+                    <td>
+                        <label for="update_id">Update ID:</label>
+                    </td>
+                    <td>
+                        <input type="number" id="update_id" name="update_id" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="u_id">User ID:</label>
+                    </td>
+                    <td>
+                        <input type="number" id="u_id" name="u_id" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="status">Status:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="status" name="status" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="datum">Date:</label>
+                    </td>
+                    <td>
+                        <input type="date" id="datum" name="datum" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="tijd">Time:</label>
+                    </td>
+                    <td>
+                        <input type="time" id="tijd" name="tijd" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="factuur_id">Invoice ID:</label>
+                    </td>
+                    <td>
+                        <input type="number" id="factuur_id" name="factuur_id" required>
+                    </td>
+                </tr>
+            </table>
 
-<body>
+            <div>
+                <button type="submit" name="update">Submit Update</button>
+            </div>
+        </form>
+        <?php if (isset($updateResult)) : ?>
+            <p><?php echo $updateResult; ?></p>
+        <?php endif; ?>
+    </section>
 
-<section class="formR">
-    <h1>Update Form</h1>
-    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-        <table>
-            <tr>
-                <td>
-                    <label for="update_id">Update ID:</label>
-                </td>
-                <td>
-                    <input type="number" id="update_id" name="update_id" required>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="u_id">User ID:</label>
-                </td>
-                <td>
-                    <input type="number" id="u_id" name="u_id" required>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="status">Status:</label>
-                </td>
-                <td>
-                    <input type="text" id="status" name="status" required>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="datum">Date:</label>
-                </td>
-                <td>
-                    <input type="date" id="datum" name="datum" required>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="tijd">Time:</label>
-                </td>
-                <td>
-                    <input type="time" id="tijd" name="tijd" required>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="factuur_id">Invoice ID:</label>
-                </td>
-                <td>
-                    <input type="number" id="factuur_id" name="factuur_id" required>
-                </td>
-            </tr>
-        </table>
+    
+    <table class="tab2">
+    <h2>Afspraken</h2>
+    <tr>
+        <th>Update ID</th>
+        <th>User ID</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Action</th>
+    </tr>
+    <?php
+    $afspraakData = $updateInstance->fetchAll("SELECT * FROM updates");
+    foreach ($afspraakData as $afspraak) {
+        echo "<tr>";
+        echo "<td>{$afspraak['update_id']}</td>";
+        echo "<td>{$afspraak['u_id']}</td>";
+        echo "<td>{$afspraak['status']}</td>";
+        echo "<td>{$afspraak['datum']}</td>"; 
+        echo "<td>{$afspraak['tijd']}</td>";  
+        echo "<td>
+                <form method='post' action='{$_SERVER['PHP_SELF']}'>
+                    <input type='hidden' name='update_id' value='{$afspraak['update_id']}'>
+                    <input type='hidden' name='action' value='delete'>
+                    <button type='submit'>Delete</button>
+                </form>
+              </td>";
+        echo "</tr>";
+    }
+    ?>
+</table>
 
-        <div>
-            <button type="submit" name="update">Submit Update</button>
-        </div>
-    </form>
-    <?php if (isset($updateResult)) : ?>
-        <p><?php echo $updateResult; ?></p>
-    <?php endif; ?>
-</section>
 
 </body>
-
 </html>

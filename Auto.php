@@ -4,8 +4,6 @@ require_once 'data/db.php';
 
 class Auto extends Database
 {
-
-
     //Functie om een auto toe te voegen in de database tabel
     public function addAuto($car_id, $brand, $model, $price)
     {
@@ -25,7 +23,6 @@ class Auto extends Database
             return $e->getMessage();
         }
     }
-
 
     //functie om de auto te updaten 
     public function updateAuto($car_id, $brand, $model, $price)
@@ -68,6 +65,8 @@ class Auto extends Database
             return $e->getMessage();
         }
     }
+
+ 
 }
 
 $invoeren = new Auto();
@@ -101,8 +100,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $delete->delete($_POST['car_id']);
         $deleteMessage = 'Auto verwijderd!';
     }
-
-
 
     if (isset($_POST['updateAuto'])) {
 
@@ -218,10 +215,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php echo $deleteMessage; ?>
    
 </section>
-<h2>Auto's</h2>
+
+
 <table class="tab2">
+<h2>Auto's</h2>
     <tr>
-        <th>Car ID</th>
+      
         <th>Brand</th>
         <th>Model</th>
         <th>Price</th>
@@ -229,10 +228,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </tr>
     <?php
     $cars = $invoeren->fetchAll("SELECT * FROM cars");
-
     foreach ($cars as $car) {
         echo "<tr>";
-        echo "<td>{$car['car_id']}</td>";
         echo "<td>{$car['brand']}</td>";
         echo "<td>{$car['model']}</td>";
         echo "<td>{$car['price']}</td>";

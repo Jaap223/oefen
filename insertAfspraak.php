@@ -158,43 +158,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteUpdate'])) {
     <?php endif; ?>
 
     <br>
-
-
     <h2>Afspraken</h2>
 
+    
+</section>
+<table>
     <thead>
         <tr>
-            <th>ID</th>
             <th>Status</th>
             <th>Date</th>
             <th>Time</th>
             <th>Invoice ID</th>
             <th>Action</th>
+            <th>Action</th>
         </tr>
     </thead>
 
-    <tbody class = "tableS">
-        <?php
-        $showUpdatesResult = $insertInstance->showUpdates();
-        foreach ($showUpdatesResult as $row) {
+    <tbody class="tab2">
+            <?php
+            $showUpdatesResult = $insertInstance->showUpdates();
+            foreach ($showUpdatesResult as $row) {
+                echo "<tr>";
+                echo "<td>" . $row['status'] . "</td>";
+                echo "<td>" . $row['datum'] . "</td>";
+                echo "<td>" . $row['tijd'] . "</td>";
+                echo "<td>" . $row['factuur_id'] . "</td>";
+                echo "<td>
+                    <form method='post' action='" . $_SERVER['PHP_SELF'] . "'>
+                        <input type='hidden' name='delete_id' value='" . $row['update_id'] . "'>
+                        <button type='submit' name='deleteUpdate'>Delete</button>
+                    </form>
+                </td>";
+                echo "</tr>";
+            }
+
             echo "<tr>";
-            echo "<td>" . $row['u_id'] . "</td>";
-            echo "<td>" . $row['status'] . "</td>";
-            echo "<td>" . $row['datum'] . "</td>";
-            echo "<td>" . $row['tijd'] . "</td>";
-            echo "<td>" . $row['factuur_id'] . "</td>";
+            echo "<td colspan='5'></td>";
+            echo "<td>
+                    <form method='post' action='Afspraak.php'>
+                        <button type='submit'>Update</button>
+                    </form>
+                </td>";
             echo "</tr>";
-            echo "<td><form method='post' action='" . $_SERVER['PHP_SELF'] . "'>
-                  <input type='hidden' name='delete_id' value='" . $row['update_id'] . "'>
-                  <button type='submit' name='deleteUpdate'>Delete</button>
-              </form></td>";
-            echo "</tr>";
-        }
-
-        ?>
-
-
-    </tbody>
-
-
+            ?>
+        </tbody>
+</table>
 </section>

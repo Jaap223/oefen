@@ -57,6 +57,18 @@ class UpdateAuto extends Database
             return $e->getMessage();
         }
     }
+
+
+    public function fetchAll($sql)
+    {
+        try {
+            $sql = "SELECT * FROM updates";
+            $stmt = $this->connect()->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
 }
 
 // class aanroepen en bericht
@@ -99,6 +111,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <section class="formR">
     <h1>Auto updaten</h1>
+
+
+    <?php
+    // Fetch the current values from the database based on the given car_id
+    if (isset($_POST['car_id'])) {
+        $currentValues = $updaten->fetchAll("SELECT * FROM cars WHERE car_id = " . $_POST['car_id']);
+        if (!empty($currentValues)) {
+            $currentValues = $currentValues[0]; 
+        } else {
+            $currentValues = [];
+        }
+    } else {
+        $currentValues = [];
+    }
+    ?>
+
+
     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <table>
             <tr>
