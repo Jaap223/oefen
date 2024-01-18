@@ -4,6 +4,8 @@ require_once 'data/db.php';
 
 class Afspraak extends Database
 {
+
+    //Update functie om waardes uit de database mee te kunnen updaten
     public function update($updateData = null)
     {
         try {
@@ -42,6 +44,7 @@ class Afspraak extends Database
         }
     }
 
+
     public function delete($update_id)
     {
         try {
@@ -55,7 +58,6 @@ class Afspraak extends Database
             return $e->getMessage();
         }
     }
-    
 }
 
 // $user_name = $_SESSION['naam'];
@@ -96,76 +98,95 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
 }
 
 
+//Logica om een afspraak te verwijderen
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['action']) && $_POST['action'] === 'delete') {
+        $delete = new Afspraak();
+        $delete->delete($_POST['update_id']);
+        $deleteMessage = 'Auto verwijderd!';
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 ?>
 
 
 
-    <section class="formR">
-        <h1>Update Form</h1>
-        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-            <table>
-                <tr>
-                    <td>
-                        <label for="update_id">Update ID:</label>
-                    </td>
-                    <td>
-                        <input type="number" id="update_id" name="update_id" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="u_id">User ID:</label>
-                    </td>
-                    <td>
-                        <input type="number" id="u_id" name="u_id" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="status">Status:</label>
-                    </td>
-                    <td>
-                        <input type="text" id="status" name="status" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="datum">Date:</label>
-                    </td>
-                    <td>
-                        <input type="date" id="datum" name="datum" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="tijd">Time:</label>
-                    </td>
-                    <td>
-                        <input type="time" id="tijd" name="tijd" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="factuur_id">Invoice ID:</label>
-                    </td>
-                    <td>
-                        <input type="number" id="factuur_id" name="factuur_id" required>
-                    </td>
-                </tr>
-            </table>
+<section class="formR">
+    <h1>Update Form</h1>
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <table>
+            <tr>
+                <td>
+                    <label for="update_id">Update ID:</label>
+                </td>
+                <td>
+                    <input type="number" id="update_id" name="update_id" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="u_id">User ID:</label>
+                </td>
+                <td>
+                    <input type="number" id="u_id" name="u_id" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="status">Status:</label>
+                </td>
+                <td>
+                    <input type="text" id="status" name="status" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="datum">Date:</label>
+                </td>
+                <td>
+                    <input type="date" id="datum" name="datum" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="tijd">Time:</label>
+                </td>
+                <td>
+                    <input type="time" id="tijd" name="tijd" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="factuur_id">Invoice ID:</label>
+                </td>
+                <td>
+                    <input type="number" id="factuur_id" name="factuur_id" required>
+                </td>
+            </tr>
+        </table>
 
-            <div>
-                <button type="submit" name="update">Submit Update</button>
-            </div>
-        </form>
-        <?php if (isset($updateResult)) : ?>
-            <p><?php echo $updateResult; ?></p>
-        <?php endif; ?>
-    </section>
+        <div>
+            <button type="submit" name="update">Submit Update</button>
+        </div>
+    </form>
+    <?php if (isset($updateResult)) : ?>
+        <p><?php echo $updateResult; ?></p>
+    <?php endif; ?>
+</section>
 
-    
-    <table class="tab2">
+
+<table class="tab2">
     <h2>Afspraken</h2>
     <tr>
         <th>Update ID</th>
@@ -182,8 +203,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
         echo "<td>{$afspraak['update_id']}</td>";
         echo "<td>{$afspraak['u_id']}</td>";
         echo "<td>{$afspraak['status']}</td>";
-        echo "<td>{$afspraak['datum']}</td>"; 
-        echo "<td>{$afspraak['tijd']}</td>";  
+        echo "<td>{$afspraak['datum']}</td>";
+        echo "<td>{$afspraak['tijd']}</td>";
         echo "<td>
                 <form method='post' action='{$_SERVER['PHP_SELF']}'>
                     <input type='hidden' name='update_id' value='{$afspraak['update_id']}'>
@@ -198,4 +219,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
 
 
 </body>
+
 </html>
